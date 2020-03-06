@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- bootsterap -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        />
+        <style>
+            .answerBtn {
+                display: block;
+                width: 200px;
+                margin: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="jumbotron">
+            <h1 class="display-4">Coding Quiz</h1>
+            <p class="lead">Answer the following questions to test your coding knowledge so far. Get started below!</p>
+            </p>
+            <div id="question"></div>
+            <br>
+            <p><strong>Score: </strong> <span id="final-score"></span></p>
+            <div id="div"></div>
+          </div>
+
+        <script>
+            var counter = localStorage.getItem("count");
+            var score = correctAnswer;
+            var countSpan = document.querySelector("#final-score");
+            var currentQuestion = 0;
+            var correctAnswer = 2;
+            var questionNumber = 0;
+            var questions = [
+                {
+                    question1: "Question 1: HTML can be defined as (in short)",
+                    answers1: ["The skeleton of your webpage", "An acronym for something we have not covered yet", "Your best friend"],
+                    answer: 0
+                },
+                {
+                    question2: "Question 2: CSS can be defined as (in short)",
+                    answers2: ["Something super boring", "The styling of your webpage", "I don't know"],
+                    answer: 1
+                },
+                {
+                    question3: "Question 3: Mobile Responsiveness can be defined as",
+                    answers3: ["Responding on a mobile device", "An iPhone", "A webpage's ability to be viewed on any size screen"],
+                    answer: 2
+                },
+                {
+                    question4: "Question 4: jQuery allows us to",
+                    answers4: ["Ask J questions", "Leverage Javascript within HTML", "Not 100% sure"],
+                    answer: 1
+                }
+            ];
+
+            // generate questions
+            function generateQuestion(questionNumber){
+            // gernerate question element
+            var questionsContainer = document.getElementById("question");
+            var questionElement = document.createElement("div");
+            var cardHeader = document.createElement("div");
+            
+            // generate question
+            cardHeader.className = "card-header";
+            cardHeader.textContent = questions[questionNumber].question;
+            questionElement.appendChild(cardHeader);
+            questionElement.className = "card";
+            
+            //generate answers
+            var answers = document.createElement("div");
+            answers.className = "card-body";
+            
+            // attach click event
+            answers.addEventListener("click", function(e){
+                answers.style.display = "none";
+                cardHeader.style.display = "none";
+
+                if(questionNumber <= questions.length){
+                    generateQuestion(questionNumber+1);
+                };       
+            });
+
+            //if correct, add points; if wrong; deduct points; then append  score to "final-score" span
+            function renderQuizScore() {           
+                if (questions.question1.answers1.answer[0]) {
+                correctAnswer++;
+                };
+                if (questions.question2.answers2.answer[1]) {
+                correctAnswer++;
+                };
+                if (questions.question3.answers3.answer[2]) {
+                correctAnswer++;
+                };
+                if (questions.question4.answers4.answer[1]) {
+                correctAnswer++;
+                };
+            };
+
+            score = $("#final-score").append(correctAnswer);
+            console.log(score);
+            return score;
+        }
+
+            //gereate btn for each answer --> value attribute = to answer index
+            questions[questionNumber].answers.forEach((answer, answerIndex) => {
+                var answerBtn = document.createElement("div");
+                answerBtn.className = "btn btn-primary answerBtn";
+                answerBtn.setAttribute("data-answer-index", answerIndex);
+                answerBtn.textContent = answer;
+                answers.appendChild(answerBtn);
+            });
+
+            questionsContainer.appendChild(questionElement);
+            questionsContainer.appendChild(answers);
+            
+
+            generateQuestion(currentQuestion);
+            renderQuizScore();
+            
+        </script>
+    </body>
+</html>
